@@ -1,0 +1,33 @@
+FROM debian:experimental
+
+RUN apt-get update
+RUN apt-get -y dist-upgrade
+RUN apt-get -y install \
+    sudo \
+    earlyoom \
+    dbus \
+    python2 \
+    python-virtualenv \
+    python3-virtualenv \
+    xvfb \
+    git-core 
+RUN apt-get install -t experimental -y \
+    epiphany-browser \
+    webkit2gtk-driver
+RUN useradd test \
+    --create-home \
+    --shell /bin/bash  \
+  && usermod -a -G sudo test \
+  && echo 'ALL ALL = (ALL) NOPASSWD: ALL' >> /etc/sudoers
+
+USER test
+
+WORKDIR /home/test/
+
+RUN mkdir -p /home/test/artifacts
+RUN mkdir -p /home/test/bin
+
+ENV PATH="/home/test/bin:${PATH}"
+
+COPY start.sh /home/test/start.sh
+COPY retry.py /home/test/bin/retry
