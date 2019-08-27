@@ -20,7 +20,7 @@ tasks:
                 event.ref == "refs/heads/triggers/firefox_stable": [{name: firefox, channel: stable}],
                 event.ref == "refs/heads/triggers/firefox_beta": [{name: firefox, channel: beta}],
                 event.ref == "refs/heads/triggers/firefox_nightly": [{name: firefox, channel: nightly}],
-                event.ref == "refs/heads/test-taskcluster-epiphany": [{name: epiphany, channel: preview}]
+                event.ref == "refs/heads/test-taskcluster-epiphany": [{name: epiphany, channel: beta}]
                 }
           each(browser):
             $map:
