@@ -32,7 +32,7 @@ RUN apt-get -y install \
 # Install epiphany and webkitgtk from experimental
 # (To get the last version of webkitgtk unstable)
 RUN apt-get install -t experimental -y \
-    epiphany-browser \
+    epiphany-browser=3.32.1.2-2 \
     webkit2gtk-driver
 
 # Set the timezone
