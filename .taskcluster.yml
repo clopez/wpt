@@ -19,35 +19,36 @@ tasks:
                 event.ref == "refs/heads/triggers/chrome_dev": [{name: chrome, channel: dev}],
                 event.ref == "refs/heads/triggers/firefox_stable": [{name: firefox, channel: stable}],
                 event.ref == "refs/heads/triggers/firefox_beta": [{name: firefox, channel: beta}],
-                event.ref == "refs/heads/triggers/firefox_nightly": [{name: firefox, channel: nightly}]
+                event.ref == "refs/heads/triggers/firefox_nightly": [{name: firefox, channel: nightly}],
+                event.ref == "refs/heads/test-taskcluster-epiphany": [{name: epiphany, channel: preview}]
                 }
           each(browser):
             $map:
               - [testharness, 1, 15]
-              - [testharness, 2, 15]
-              - [testharness, 3, 15]
-              - [testharness, 4, 15]
-              - [testharness, 5, 15]
-              - [testharness, 6, 15]
-              - [testharness, 7, 15]
-              - [testharness, 8, 15]
-              - [testharness, 9, 15]
-              - [testharness, 10, 15]
-              - [testharness, 11, 15]
-              - [testharness, 12, 15]
-              - [testharness, 13, 15]
-              - [testharness, 14, 15]
-              - [testharness, 15, 15]
+              #- [testharness, 2, 15]
+              #- [testharness, 3, 15]
+              #- [testharness, 4, 15]
+              #- [testharness, 5, 15]
+              #- [testharness, 6, 15]
+              #- [testharness, 7, 15]
+              #- [testharness, 8, 15]
+              #- [testharness, 9, 15]
+              #- [testharness, 10, 15]
+              #- [testharness, 11, 15]
+              #- [testharness, 12, 15]
+              #- [testharness, 13, 15]
+              #- [testharness, 14, 15]
+              #- [testharness, 15, 15]
               - [reftest, 1, 10]
-              - [reftest, 2, 10]
-              - [reftest, 3, 10]
-              - [reftest, 4, 10]
-              - [reftest, 5, 10]
-              - [reftest, 6, 10]
-              - [reftest, 7, 10]
-              - [reftest, 8, 10]
-              - [reftest, 9, 10]
-              - [reftest, 10, 10]
+              #- [reftest, 2, 10]
+              #- [reftest, 3, 10]
+              #- [reftest, 4, 10]
+              #- [reftest, 5, 10]
+              #- [reftest, 6, 10]
+              #- [reftest, 7, 10]
+              #- [reftest, 8, 10]
+              #- [reftest, 9, 10]
+              #- [reftest, 10, 10]
               - [wdspec, 1, 1]
             each(chunk):
               taskId: {$eval: 'as_slugid(browser.name + browser.channel + chunk[0] + str(chunk[1]))'}
@@ -70,7 +71,12 @@ tasks:
                 owner: ${event.pusher.email}
                 source: ${event.repository.url}
               payload:
-                image: harjgam/web-platform-tests:0.33
+                image:
+                  $if: browser.name == 'epiphany'
+                  then:
+                    cl0p3z/web-platform-tests:debian-epiphany20190827
+                  else:
+                    harjgam/web-platform-tests:0.33
                 maxRunTime: 7200
                 artifacts:
                   public/results:
@@ -100,6 +106,8 @@ tasks:
                       ./tools/ci/taskcluster-run.py
                         ${browser.name}
                         --
+                        --webdriver-binary=/usr/bin/WebKitWebDriver
+                        --webdriver-arg=--host=127.0.0.1
                         --channel=${browser.channel}
                         --log-wptreport=../artifacts/wpt_report.json
                         --log-wptscreenshot=../artifacts/wpt_screenshot.txt
