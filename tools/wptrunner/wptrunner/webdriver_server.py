@@ -84,6 +84,8 @@ class WebDriverServer(object):
         self.logger.debug("Stopping WebDriver")
         if self.is_alive:
             return self._proc.kill()
+        if force:
+            return self._proc.kill(9)
         return not self.is_alive
 
     @property
