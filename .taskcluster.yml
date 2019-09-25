@@ -126,8 +126,8 @@ tasks:
                           --this-chunk=${chunk[1]}
                           --total-chunks=${chunk[2]}
                           ${extraArgs}
-                extra:
-                  github_event: "${event_str}"
+              extra:
+                github_event: "${event_str}"
 
       - $if: tasks_for == "github-pull-request"
         # PR tasks that run the tests in various configurations
