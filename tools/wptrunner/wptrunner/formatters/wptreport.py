@@ -61,8 +61,6 @@ class WptreportFormatter(BaseFormatter):
     def suite_start(self, data):
         if 'run_info' in data:
             self.results['run_info'] = data['run_info']
-            if 'product' in self.results['run_info'] and self.results['run_info']['product'] == 'webkitgtk_minibrowser':
-                self.results['run_info']['product'] = 'uc'
         self.results['time_start'] = data['time']
 
     def suite_end(self, data):
