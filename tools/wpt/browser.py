@@ -1107,7 +1107,7 @@ class WebKit(Browser):
 class WebKitGTKMiniBrowser(WebKit):
 
     def find_binary(self, venv_path=None, channel=None):
-        libexecpaths = ["/usr/libexec/webkit2gtk-4.0"] # Fedora path
+        libexecpaths = ["/usr/libexec/webkit2gtk-4.0"]  # Fedora path
         triplet = "x86_64-linux-gnu"
         # Try to use GCC to detect this machine triplet
         gcc = find_executable("gcc")
@@ -1126,7 +1126,7 @@ class WebKitGTKMiniBrowser(WebKit):
     def version(self, binary=None, webdriver_binary=None):
         if binary is None:
             return None
-        try: # WebKitGTK MiniBrowser before 2.26.0 doesn't support --version
+        try:  # WebKitGTK MiniBrowser before 2.26.0 doesn't support --version
             output = call(binary, "--version").strip()
         except subprocess.CalledProcessError:
             return None
