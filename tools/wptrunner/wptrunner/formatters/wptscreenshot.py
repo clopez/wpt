@@ -17,7 +17,10 @@ class WptscreenshotFormatter(BaseFormatter):
         params = {}
         run_info = data.get("run_info", {})
         if "product" in run_info:
-            params["browser"] = run_info["product"]
+            if run_info["product"] == "webkitgtk_minibrowser":
+                params["browser"] = "uc"
+            else:
+                params["browser"] = run_info["product"]
         if "browser_version" in run_info:
             params["browser_version"] = run_info["browser_version"]
         if "os" in run_info:
