@@ -107,6 +107,7 @@ tasks:
                       sudo cp tools/certs/cacert.pem
                           /usr/local/share/ca-certificates/cacert.crt;
                       sudo update-ca-certificates;
+                      export WEBKIT_DISABLE_COMPOSITING_MODE=1;
                       ./tools/ci/run_tc.py
                         --checkout=${event.after}
                         --oom-killer
