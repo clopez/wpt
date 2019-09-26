@@ -31,8 +31,11 @@ def browser_kwargs(test_type, run_info_data, config, **kwargs):
 
 def capabilities(server_config, **kwargs):
     args = kwargs.get("binary_args", [])
-    if "--automation" not in args:
-        args.append("--automation")
+    for required_arg in ['--automation',
+                         '--javascript-can-open-windows-automatically=true',
+                         '--enable-xss-auditor=false']:
+        if required_arg not in args:
+            args.append(required_arg)
 
     return {
         "browserName": "MiniBrowser",
