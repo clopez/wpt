@@ -82,7 +82,7 @@ tasks:
                   image:
                     $if: browser.name in ['epiphany', 'webkitgtk_minibrowser']
                     then:
-                      cl0p3z/web-platform-tests:fedora30
+                      cl0p3z/web-platform-tests:fedora30.1
                     else:
                       harjgam/web-platform-tests:0.33
                   maxRunTime: 7200
