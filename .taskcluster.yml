@@ -105,6 +105,14 @@ tasks:
                           /etc/pki/ca-trust/source/anchors/cacert.crt;
                       sudo update-ca-trust;
                       export WEBKIT_DISABLE_COMPOSITING_MODE=1;
+                      export TZ="UTC";
+                      export LANG="en_US.UTF-8";
+                      export LANGUAGE="en_US:en";
+                      export LC_ALL="en_US.UTF-8";
+                      export SCREEN_WIDTH="1280";
+                      export SCREEN_HEIGHT="1024";
+                      export SCREEN_DEPTH="24";
+                      export DISPLAY=":99.0";
                       ./tools/ci/run_tc.py
                         --checkout=${event.after}
                         --oom-killer
