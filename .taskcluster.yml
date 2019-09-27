@@ -100,6 +100,7 @@ tasks:
                         ${event.repository.url}
                         ${event.ref};
                       cd ~/web-platform-tests;
+                      sudo apt-get update;
                       sudo apt-get install -y epiphany-browser webkit2gtk-driver;
                       sudo cp tools/certs/cacert.pem
                           /usr/local/share/ca-certificates/cacert.crt;
