@@ -1129,15 +1129,27 @@ class WebKitGTKMiniBrowser(WebKit):
         try:  # WebKitGTK MiniBrowser before 2.26.0 doesn't support --version
             output = call(binary, "--version").strip()
         except subprocess.CalledProcessError:
-            try:
-                output = call("dpkg", "-s", "libwebkit2gtk-4.0-37").strip()
-                if output:
-                    for line in output.splitlines():
-                        if line.startswith("Version"):
-                            return line.strip().split()[1]
-                return None
-            except subprocess.CalledProcessError:
-                return None
+            dpkg = find_executable("dpkg")
+            if dpkg:
+                try:
+                    output = call("dpkg", "-s", "libwebkit2gtk-4.0-37").strip()
+                    if output:
+                        for line in output.splitlines():
+                            if line.startswith("Version"):
+                                return line.strip().split()[1]
+                    return None
+                except subprocess.CalledProcessError:
+                    return None
+            else:
+                try:
+                    output = call("rpm", "-qi", "webkit2gtk3").strip()
+                    if output:
+                        for line in output.splitlines():
+                            if line.startswith("Version"):
+                                return line.split(":")[1].strip()
+                        return None
+                except subprocess.CalledProcessError:
+                    return None
         # Example output: "WebKitGTK 2.26.1"
         if output:
             m = re.match(r"WebKitGTK (.+)", output)

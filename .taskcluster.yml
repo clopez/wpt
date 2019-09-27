@@ -82,7 +82,7 @@ tasks:
                   image:
                     $if: browser.name in ['epiphany', 'webkitgtk_minibrowser']
                     then:
-                      harjgam/web-platform-tests:0.33
+                      cl0p3z/web-platform-tests:fedora30
                     else:
                       harjgam/web-platform-tests:0.33
                   maxRunTime: 7200
@@ -100,11 +100,10 @@ tasks:
                         ${event.repository.url}
                         ${event.ref};
                       cd ~/web-platform-tests;
-                      sudo apt-get update;
-                      sudo apt-get install -y epiphany-browser webkit2gtk-driver;
+                      sudo dnf install webkit2gtk3-devel epiphany;
                       sudo cp tools/certs/cacert.pem
-                          /usr/local/share/ca-certificates/cacert.crt;
-                      sudo update-ca-certificates;
+                          /etc/pki/ca-trust/source/anchors/cacert.crt;
+                      sudo update-ca-trust;
                       export WEBKIT_DISABLE_COMPOSITING_MODE=1;
                       ./tools/ci/run_tc.py
                         --checkout=${event.after}
