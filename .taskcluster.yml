@@ -20,7 +20,7 @@ tasks:
                 event.ref == "refs/heads/triggers/firefox_stable": [{name: firefox, channel: stable}],
                 event.ref == "refs/heads/triggers/firefox_beta": [{name: firefox, channel: beta}],
                 event.ref == "refs/heads/triggers/firefox_nightly": [{name: firefox, channel: nightly}],
-                event.ref == "refs/heads/test-taskcluster-webkitgtk": [{name: epiphany, channel: beta}, {name: webkitgtk_minibrowser, channel: beta}]
+                event.ref == "refs/heads/test-taskcluster-webkitgtk2": [{name: webkitgtk_minibrowser, channel: beta}]
                 }
           each(browser):
             $map:
@@ -82,7 +82,7 @@ tasks:
                   image:
                     $if: browser.name in ['epiphany', 'webkitgtk_minibrowser']
                     then:
-                      cl0p3z/web-platform-tests:debian-epiphany20190827
+                      cl0p3z/web-platform-tests:webkitgtk20190901
                     else:
                       harjgam/web-platform-tests:0.33
                   maxRunTime: 7200
@@ -100,14 +100,9 @@ tasks:
                         ${event.repository.url}
                         ${event.ref};
                       cd ~/web-platform-tests;
-                      wget https://wk-contrib.igalia.com/debian/tmp/libjavascriptcoregtk-4.0-18_2.25.4-1.1_amd64.deb;
-                      wget https://wk-contrib.igalia.com/debian/tmp/libwebkit2gtk-4.0-37_2.25.4-1.1_amd64.deb;
-                      wget https://wk-contrib.igalia.com/debian/tmp/webkit2gtk-driver_2.25.4-1.1_amd64.deb;
-                      sudo dpkg -i *.deb;
                       sudo cp tools/certs/cacert.pem
                           /usr/local/share/ca-certificates/cacert.crt;
                       sudo update-ca-certificates;
-                      export WEBKIT_DISABLE_COMPOSITING_MODE=1;
                       ./tools/ci/run_tc.py
                         --checkout=${event.after}
                         --oom-killer
