@@ -71,57 +71,48 @@ tasks:
                 owner: ${event.pusher.email}
                 source: ${event.repository.url}
               payload:
-                $let:
-                  extraArgs:
-                    $if: browser.name in ['epiphany', 'webkitgtk_minibrowser']
-                    then:
-                      --webdriver-arg=--host=127.0.0.1
-                    else:
-                      ''
-                in:
-                  image:
-                    $if: browser.name in ['epiphany', 'webkitgtk_minibrowser']
-                    then:
-                      cl0p3z/web-platform-tests:webkitgtk20190901
-                    else:
-                      harjgam/web-platform-tests:0.33
-                  maxRunTime: 7200
-                  artifacts:
-                    public/results:
-                      path: /home/test/artifacts
-                      type: directory
-                  command:
-                    - /bin/bash
-                    - --login
-                    - -c
-                    - set -ex;
-                      echo "wpt-${browser.name}-${browser.channel}-${chunk[0]}-${chunk[1]}";
-                      ~/start.sh
-                        ${event.repository.url}
-                        ${event.ref};
-                      cd ~/web-platform-tests;
-                      sudo cp tools/certs/cacert.pem
-                          /usr/local/share/ca-certificates/cacert.crt;
-                      sudo update-ca-certificates;
-                      ./tools/ci/run_tc.py
-                        --checkout=${event.after}
-                        --oom-killer
-                        --hosts
-                        --browser=${browser.name}
+                image:
+                  $if: browser.name in ['epiphany', 'webkitgtk_minibrowser']
+                  then:
+                    cl0p3z/web-platform-tests:webkitgtk20190901
+                  else:
+                    harjgam/web-platform-tests:0.33
+                maxRunTime: 7200
+                artifacts:
+                  public/results:
+                    path: /home/test/artifacts
+                    type: directory
+                command:
+                  - /bin/bash
+                  - --login
+                  - -c
+                  - set -ex;
+                    echo "wpt-${browser.name}-${browser.channel}-${chunk[0]}-${chunk[1]}";
+                    ~/start.sh
+                      ${event.repository.url}
+                      ${event.ref};
+                    cd ~/web-platform-tests;
+                    sudo cp tools/certs/cacert.pem
+                        /usr/local/share/ca-certificates/cacert.crt;
+                    sudo update-ca-certificates;
+                    ./tools/ci/run_tc.py
+                      --checkout=${event.after}
+                      --oom-killer
+                      --hosts
+                      --browser=${browser.name}
+                      --channel=${browser.channel}
+                      --xvfb
+                      run-all
+                      ./tools/ci/taskcluster-run.py
+                        ${browser.name}
+                        --
                         --channel=${browser.channel}
-                        --xvfb
-                        run-all
-                        ./tools/ci/taskcluster-run.py
-                          ${browser.name}
-                          --
-                          --channel=${browser.channel}
-                          --log-wptreport=../artifacts/wpt_report.json
-                          --log-wptscreenshot=../artifacts/wpt_screenshot.txt
-                          --no-fail-on-unexpected
-                          --test-type=${chunk[0]}
-                          --this-chunk=${chunk[1]}
-                          --total-chunks=${chunk[2]}
-                          ${extraArgs}
+                        --log-wptreport=../artifacts/wpt_report.json
+                        --log-wptscreenshot=../artifacts/wpt_screenshot.txt
+                        --no-fail-on-unexpected
+                        --test-type=${chunk[0]}
+                        --this-chunk=${chunk[1]}
+                        --total-chunks=${chunk[2]};
               extra:
                 github_event: "${event_str}"
 

@@ -23,25 +23,37 @@ def check_args(**kwargs):
     pass
 
 
-def browser_kwargs(test_type, run_info_data, config, **kwargs):
-    webdriver_args = kwargs.get("webdriver_args")
-    # Workaround for https://gitlab.gnome.org/GNOME/libsoup/issues/172
-    if not any('--host=' in item for item in webdriver_args):
-        webdriver_args.append('--host=127.0.0.1')
+def check_and_maybe_add_required_args(required_args, specified_args):
+    for required_arg in required_args:
+        # If the arg is in the form of variable=value, only append if
+        # no arg with another value for variable is already there.
+        if '=' in required_arg:
+            required_arg_variable = '%s=' % required_arg.split('=')[0]
+            if not any(required_arg_variable in item for item in specified_args):
+                specified_args.append(required_arg)
+        else:
+            if required_arg not in specified_args:
+                specified_args.append(required_arg)
+    return specified_args
 
+def browser_kwargs(test_type, run_info_data, config, **kwargs):
+    # Workaround for https://gitlab.gnome.org/GNOME/libsoup/issues/172
+    webdriver_required_args = ['--host=127.0.0.1']
+    webdriver_args = check_and_maybe_add_required_args(webdriver_required_args, kwargs.get("webdriver_args"))
     return {"binary": kwargs["binary"],
             "webdriver_binary": kwargs["webdriver_binary"],
             "webdriver_args": webdriver_args }
 
 
 def capabilities(server_config, **kwargs):
-    args = kwargs.get("binary_args", [])
-    for required_arg in ['--automation',
-                         '--javascript-can-open-windows-automatically=true',
-                         '--enable-xss-auditor=false']:
-        if required_arg not in args:
-            args.append(required_arg)
-
+    browser_required_args = ['--automation',
+                            '--javascript-can-open-windows-automatically=true',
+                            '--enable-xss-auditor=false',
+                            '--enable-media-capabilities=true',
+                            '--enable-encrypted-media=true',
+                            '--enable-mock-capture-devices=true',
+                            '--enable-webaudio=true']
+    args = check_and_maybe_add_required_args(browser_required_args, kwargs.get("binary_args"))
     return {
         "browserName": "MiniBrowser",
         "webkitgtk:browserOptions": {
