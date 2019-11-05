@@ -34,12 +34,6 @@ def browser_kwargs(test_type, run_info_data, config, **kwargs):
 
 def capabilities(server_config, **kwargs):
     browser_required_args = ["--automation",
-                            "--javascript-can-open-windows-automatically=true",
-                            "--enable-xss-auditor=false",
-                            "--enable-media-capabilities=true",
-                            "--enable-encrypted-media=true",
-                            "--enable-media-stream=true",
-                            "--enable-mock-capture-devices=true",
                             "--enable-webaudio=true"]
     args = kwargs.get("binary_args", [])
     args = maybe_add_args(browser_required_args, args)
