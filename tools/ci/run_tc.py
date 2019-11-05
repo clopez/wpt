@@ -188,13 +188,13 @@ def download_url_to_descriptor(fd, url, max_retries=3):
 
 def install_webkitgtk_from_tarball_bundle(channel):
     with tempfile.NamedTemporaryFile(suffix=".tar.xz") as temp_tarball:
-        download_url = "https://webkitgtk.org/built-products/nightly/webkitgtk-nightly-build-last.tar.xz"
+        download_url = "https://people.igalia.com/clopez/webkitgtk-nightly-build-252013.tar.xz"
         if not download_url_to_descriptor(temp_tarball, download_url):
             raise RuntimeError("Can't download %s. Aborting" % download_url)
         run(["sudo", "tar", "xfa", temp_tarball.name, "-C", "/"])
     # Install dependencies
     run(["sudo", "apt-get", "-qqy", "update"])
-    run(["sudo", "/opt/webkitgtk/nightly/install-dependencies"])
+    run(["sudo", "/opt/webkitgtk-test/nightly/install-dependencies"])
 
 
 def install_webkitgtk(channel):
@@ -276,7 +276,7 @@ def setup_environment(args):
     if "chrome" in args.browser:
         assert args.channel is not None
         install_chrome(args.channel)
-    elif "webkitgtk_minibrowser" in args.browser:
+    elif "webkitgtk_minibrowser" in args.browser or "epiphany" in args.browser:
         assert args.channel is not None
         install_webkitgtk(args.channel)
 
