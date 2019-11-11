@@ -10,7 +10,7 @@ their implementations. This in turn gives Web authors/developers
 confidence that they can actually rely on the Web platform to deliver on
 the promise of working across browsers and devices without needing extra
 layers of abstraction to paper over the gaps left by specification
-editors and implementors.
+editors and implementors
 
 The most important sources of information and activity are:
 
