@@ -23,7 +23,7 @@ tasks:
         description: test
         owner:
           $let:
-            lengthMail: 1
+            lengthMail: {$eval: 'len([1, 2, 3])'}
           in:          
             $if: '"${lengthMail}" > 2 && "@" in event.repository.forks'
             then: ${event.pusher.email}
