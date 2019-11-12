@@ -24,7 +24,8 @@ tasks:
         owner:
           $let:
             lengthMail: {$eval: 'len([1, 2, 3]) > 2'}
-            typeMail: {$eval: 'typeof("${event.pusher.email}")'} 
+            typeMail: "${typeof('abc')}"
+            #{$eval: 'typeof("${event.pusher.email}")'} 
           in:          
             #$if: '"string" == "${typeMail}" && "@" in event.pusher.email'
             $if: '"${typeMail}" != "string"'
