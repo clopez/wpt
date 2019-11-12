@@ -22,7 +22,7 @@ tasks:
         name: test
         description: test
         owner:
-          $if: '3 > 2 && "@" in event.repository.forks'
+          $if: '{$eval: "len(event.repository.forks)"} > 2 && "@" in event.repository.forks'
           then: ${event.pusher.email}
           else: ${event.sender.login}@users.noreply.github.com
         source: '${event.repository.url}'
