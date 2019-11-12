@@ -23,7 +23,7 @@ tasks:
         description: test
         xtest:
         owner:
-          $if: '"@" in metada.xtest'
+          $if: '"@" in event.forks'
           then: ${event.pusher.email}
           else: ${event.sender.login}@users.noreply.github.com
         source: '${event.repository.url}'
