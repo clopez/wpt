@@ -21,7 +21,7 @@ tasks:
       metadata:
         name: test
         description: test
-        lengthMail: {$eval: 'len(event.repository.forks)'}
+        lengthMail: {$eval: 'len([1, 2, 3])'}
         owner:
           $if: 'lengthMail > 2 && "@" in event.repository.forks'
           then: ${event.pusher.email}
