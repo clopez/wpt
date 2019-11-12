@@ -21,8 +21,9 @@ tasks:
       metadata:
         name: test
         description: test
+        xtest:
         owner:
-          $if: '"@" in event.pusher.emailx'
+          $if: '"@" in metada.xtest'
           then: ${event.pusher.email}
           else: ${event.sender.login}@users.noreply.github.com
         source: '${event.repository.url}'
