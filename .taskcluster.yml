@@ -24,10 +24,9 @@ tasks:
         owner:
           $let:
             lengthMail: {$eval: 'len([1, 2, 3]) > 2'}
-            typeMail: "${typeof(event.repository.forks)}"
+            typeMail: {$eval: 'typeof(event.repository.forks)'} 
           in:          
             $if: '"${lengthMail}" == "true" && "string" == "${typeMail}" && "@" in event.pusher.email'
-            $if: "typeof
             then: ${event.pusher.email}
             else: ${event.sender.login}@users.noreply.github.com
         source: '${event.repository.url}'
