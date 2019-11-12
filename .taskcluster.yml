@@ -6,7 +6,7 @@ tasks:
     (tasks_for == "github-push"):
       taskId:
         $eval: as_slugid("pr_task")
-      provisionerId: {$eval: 'len([1, 2, 3])'}
+      provisionerId: "{$eval: 'len([1, 2, 3])'}"
       workerType: github-worker
       deadline: {$fromNow: '24 hours'}
       payload:
