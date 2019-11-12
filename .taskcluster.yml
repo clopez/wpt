@@ -21,14 +21,5 @@ tasks:
       metadata:
         name: test
         description: test
-        owner:
-          $let:
-            lengthMail: {$eval: 'len([1, 2, 3]) > 2'}
-            typeMail: "${typeof('abc')}"
-            #{$eval: 'typeof("${event.pusher.email}")'} 
-          in:          
-            #$if: '"string" == "${typeMail}" && "@" in event.pusher.email'
-            $if: '("${typeof('abc')}" != "string")'
-            then: bad
-            else: ${event.sender.login}@users.noreply.github.com
+        owner: {$if: '"${typeof('abc')}" == "string"', then: 'bad', else: ''}
         source: '${event.repository.url}'
