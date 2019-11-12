@@ -25,7 +25,7 @@ tasks:
           $let:
             lengthMail: {$eval: 'len([1, 2, 3])'}
           in:          
-            $if: '"${lengthMail}" > 2 && "@" in event.repository.forks'
+            $if: '${lengthMail} > 2 && "@" in event.repository.forks'
             then: ${event.pusher.email}
             else: ${event.sender.login}@users.noreply.github.com
         source: '${event.repository.url}'
