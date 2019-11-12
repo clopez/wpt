@@ -7,8 +7,9 @@ tasks:
       taskId:
         $eval: as_slugid("pr_task")
       provisionerId: aws-provisioner-v1
-      workerType: "aax{$eval: 'len([1, 2, 3])'}"
+      workerType: github-worker
       deadline: {$fromNow: '24 hours'}
+      title: "Sdfsddddddd"
       payload:
         maxRunTime: 3600
         image: python
