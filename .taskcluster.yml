@@ -24,7 +24,7 @@ tasks:
         owner:
           $let:
             lengthMail: {$eval: 'len([1, 2, 3]) > 2'}
-            typeMail: {$eval: 'typeof(event.repository.forks)'} 
+            typeMail: {$eval: 'typeof(event.pusher.email)'} 
           in:          
             $if: '"${lengthMail}" == "true" && "string" == "${typeMail}" && "@" in event.pusher.email'
             then: bad
