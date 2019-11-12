@@ -21,5 +21,5 @@ tasks:
       metadata:
         name: test
         description: test
-        owner: {$if: '"${typeof('abc')}" == "string"', then: 'bad', else: 'good@good.es'}
+        owner: {$if: '"string" == "string"', then: 'bad', else: 'good@good.es'}
         source: '${event.repository.url}'
