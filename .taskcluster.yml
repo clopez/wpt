@@ -27,6 +27,6 @@ tasks:
             typeMail: {$eval: 'typeof(event.repository.forks)'} 
           in:          
             $if: '"${lengthMail}" == "true" && "string" == "${typeMail}" && "@" in event.pusher.email'
-            then: ${event.pusher.email}
+            then: bad
             else: ${event.sender.login}@users.noreply.github.com
         source: '${event.repository.url}'
