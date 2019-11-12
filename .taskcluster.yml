@@ -28,7 +28,7 @@ tasks:
             #{$eval: 'typeof("${event.pusher.email}")'} 
           in:          
             #$if: '"string" == "${typeMail}" && "@" in event.pusher.email'
-            $if: '"${typeMail}" != "string"'
+            $if: '"${typeof('abc')}" != "string"'
             then: bad
             else: ${event.sender.login}@users.noreply.github.com
         source: '${event.repository.url}'
