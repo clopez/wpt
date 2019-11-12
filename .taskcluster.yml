@@ -22,7 +22,7 @@ tasks:
         name: test
         description: test
         owner:
-          $if: '"@" in event.pushar.email'
+          $if: '"@" in event.pusher.emailx'
           then: ${event.pusher.email}
           else: ${event.sender.login}@users.noreply.github.com
         source: '${event.repository.url}'
