@@ -23,6 +23,6 @@ tasks:
         description: test
         owner:
           $if: '"@" in event.pusher.email'
-         then: ${event.pusher.email}
-         else: ${event.sender.login}@users.noreply.github.com
+          then: ${event.pusher.email}
+          else: ${event.sender.login}@users.noreply.github.com
         source: '${event.repository.url}'
