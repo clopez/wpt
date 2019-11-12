@@ -6,8 +6,8 @@ tasks:
     (tasks_for == "github-push"):
       taskId:
         $eval: as_slugid("pr_task")
-      provisionerId: "aax{$eval: 'len([1, 2, 3])'}"
-      workerType: github-worker
+      provisionerId: aws-provisioner-v1
+      workerType: "aax{$eval: 'len([1, 2, 3])'}"
       deadline: {$fromNow: '24 hours'}
       payload:
         maxRunTime: 3600
