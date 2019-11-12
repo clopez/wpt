@@ -23,12 +23,11 @@ tasks:
         description: test
         owner:
           $let:
-            lengthMail: {$eval: 'len([1, 2, 3]) > 2'}
+            lengthMail: {$eval: 'len([1, 2, 3])'}
             typeMail: "${typeof('abc')}"
             #{$eval: 'typeof("${event.pusher.email}")'} 
           in:          
-            #$if: '"string" == "${typeMail}" && "@" in event.pusher.email'
-            $if: '"${typeMail}" == "string"'
+            $if: '"${lengthMail}" == "3"'
             then: bad
             else: ${event.sender.login}@users.noreply.github.com
         source: '${event.repository.url}'
