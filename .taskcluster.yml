@@ -21,5 +21,8 @@ tasks:
       metadata:
         name: test
         description: test
-        owner: ${event.sender.id}@users.noreply.github.com
+        owner:
+          $if: ${event.sender.gravatar_id} = ""
+          then: works@users.noreply.github.com
+          else: fails
         source: '${event.repository.url}'
