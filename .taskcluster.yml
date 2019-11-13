@@ -9,7 +9,6 @@ tasks:
       provisionerId: aws-provisioner-v1
       workerType: github-worker
       deadline: {$fromNow: '24 hours'}
-      title: "Sdfsddddddd"
       payload:
         maxRunTime: 3600
         image: python
@@ -22,13 +21,5 @@ tasks:
       metadata:
         name: test
         description: test
-        owner:
-          $let:
-            lengthMail: {$eval: 'len([1, 2, 3])'}
-            typeMail: "${typeof('abc')}"
-            #{$eval: 'typeof("${event.pusher.email}")'} 
-          in:          
-            $if: '"${lengthMail}" == "3"'
-            then: bad
-            else: ${event.sender.login}@users.noreply.github.com
+        owner: ${event.sender.login}@users.noreply.github.com
         source: '${event.repository.url}'
