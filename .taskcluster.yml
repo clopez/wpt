@@ -23,6 +23,6 @@ tasks:
         description: test
         owner:
           $if: '"${event.sender.gravatar_id}" == ""'
-          then: works@users.noreply.github.com
+          then: ${event.sender.login}@users.noreply.github.com
           else: fails
         source: '${event.repository.url}'
