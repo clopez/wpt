@@ -22,7 +22,7 @@ tasks:
         name: test
         description: test
         owner:
-          $if: '"${event.sender.login}" == ""'
+          $if: 'event.sender.login == "clopez"'
           then: ${event.sender.login}@users.noreply.github.com
           else: fails
         source: '${event.repository.url}'
